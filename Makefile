@@ -1,4 +1,4 @@
-all: run
+all: myrun
 
 # This makefile contains some convenience commands for deploying and publishing.
 
@@ -8,6 +8,7 @@ all: run
 # or to publish the :latest version to the specified registry as :1.0.0, run:
 # $ make publish version=1.0.0
 
+aws_profile = rtdevelopment
 name = jenkins-master
 image_name = jenkinsci/blueocean
 registry = 874727002155.dkr.ecr.us-east-1.amazonaws.com/rt-jenkins/master
@@ -15,7 +16,7 @@ version ?= latest
 
 ecr_login:
 	$(call blue, "Login to AWS ECR...")
-	eval $(aws --profile rtdevelopment ecr get-login --no-include-email)
+        eval `aws --profile ${aws_profile} ecr get-login --no-include-email`
 
 binary:
 	$(call blue, "Building binary ready for containerisation...")
@@ -39,7 +40,7 @@ run: image
 	$(call blue, "Running Docker image locally...")
 	docker run -i -t --rm -p 8080:8080 ${name}:${version} 
 
-publish:  
+publish: ecr_login
 	$(call blue, "Publishing Docker image to registry...")
 	docker tag ${name}:latest ${registry}/${name}:${version}
 	docker push ${registry}/${name}:${version} 
@@ -49,7 +50,7 @@ image_update:
 	docker pull ${image_name}:latest
 
 clean: 
-	@rm -f app 
+	@echo "cleaning nothing"
 
 define blue
 	@tput setaf 6
