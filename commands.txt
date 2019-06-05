@@ -1,0 +1,9 @@
+# Login using docker command returned by the command below
+aws ecr get-login --region region
+# Build your Docker image using the Dockerfile 
+docker build -t jenkins-master .
+# Tag the jenkins_master image
+docker tag jenkins_master:latest AWS Account Number.dkr.ecr.us-east-1.amazonaws.com/jenkins_master:latest
+# Push the jenkins-master image to ECR 
+docker push AWS Account Number.dkr.ecr.us-east-1.amazonaws.com/jenkins-master:latest
+
