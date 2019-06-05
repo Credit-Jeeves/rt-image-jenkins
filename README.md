@@ -1,4 +1,4 @@
-Update Jenikns image to latest
+Update Jenkins image to latest
 
   make image_update
 
