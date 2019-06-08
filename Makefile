@@ -8,7 +8,8 @@ all: myrun
 # or to publish the :latest version to the specified registry as :1.0.0, run:
 # $ make publish version=1.0.0
 
-aws_profile = rtdevelopment
+region ?= us-east-1
+#aws_profile = rtdevelopment
 name = jenkins-master
 image_name = jenkinsci/blueocean
 registry = 874727002155.dkr.ecr.us-east-1.amazonaws.com/rt-jenkins/master
@@ -16,7 +17,8 @@ version ?= latest
 
 ecr_login:
 	$(call blue, "Login to AWS ECR...")
-        eval `aws --profile ${aws_profile} ecr get-login --no-include-email`
+#	eval `aws --profile ${aws_profile} ecr get-login --no-include-email`
+	eval `aws ecr --region ${region} get-login --no-include-email`
 
 binary:
 	$(call blue, "Building binary ready for containerisation...")
@@ -53,7 +55,7 @@ clean:
 	@echo "cleaning nothing"
 
 define blue
-	@tput setaf 6
+#	@tput setaf 6
 	@echo $1
-	@tput sgr0
+#	@tput sgr0
 endef

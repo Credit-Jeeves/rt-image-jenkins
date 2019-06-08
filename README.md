@@ -1,4 +1,4 @@
-This image build needs to be run locally, as it does not have the jnlp-slave code
+This builds the master Jenkins server image
 
 Update Jenkins image to latest
 
